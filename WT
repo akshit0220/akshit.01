@@ -1,0 +1,38 @@
+<html>
+  <head></head>
+    <title>TYPE OF LIST </title>
+    <h1> ORDERED LIST WITH NUMBERS  </h1>
+     <body><ol><li>pencil</li>
+     <li> eraser</li>
+     <li> sharpener</li>
+     <li> stapler</li>
+     <li> pen</li></ol>
+     <h2> ORDERED LIST WITH CAPITAL ROMAN NUMBERS  </h2>
+     <ol type="I"> 
+     <li> pencil</li>
+     <li>eraser</li>
+     <li> pen</li>
+     <li> stapler</li>
+     <li>sharpner</li></ol>
+     <h3>ORDERED LIST WITH SMALL ROMAN NUMBERS </h3>
+     <ol type="i"> 
+     <li> pencil</li>
+     <li>eraser</li>
+     <li> pen</li>
+     <li> stapler</li>
+     <li>sharpner</li></ol>
+     <h3>ORDERED LIST WITH CAPITAL ALPHABETS </h3>
+     <ol type="A"> 
+     <li> pencil</li>
+     <li>eraser</li>
+     <li> pen</li>
+     <li> stapler</li>
+     <li>sharpner</li></ol>
+     <h3>ORDERED LIST WITH SMALL ALPHABETS </h3>
+     <ol type="a"> 
+     <li> pencil</li>
+     <li>eraser</li>
+     <li> pen</li>
+     <li> stapler</li>
+     <li>sharpner</li></ol>
+    </body></html>
