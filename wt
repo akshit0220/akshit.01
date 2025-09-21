@@ -1,0 +1,25 @@
+<html>
+  <head></head>
+    <title>TYPE OF LIST </title>
+    <h1> UNORDERED LIST WITH BULLETS  </h1>
+     <body><ul><li>pencil</li>
+     <li> eraser</li>
+     <li> sharpener</li>
+     <li> stapler</li>
+     <li> pen</li></ul>
+     <h2> UNORDERED LIST WITH CIRCLE </h2>
+     <ul type="CIRCLE"> 
+     <li> pencil</li>
+     <li>eraser</li>
+     <li> pen</li>
+     <li> stapler</li>
+     <li>sharpner</li></ul>
+     <h3>UNORDERED LIST WITH SQUARES</h3>
+     <ul type="SQUARE"> 
+     <li> pencil</li>
+     <li>eraser</li>
+     <li> pen</li>
+     <li> stapler</li>
+     <li>sharpner</li></ul>
+     
+    </body></html>
