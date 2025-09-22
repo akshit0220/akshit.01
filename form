@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html> <head> <title> forms in table</title></head>
+<body> <fieldset> <legend> USER PERSONAL INFORMATION</legend>
+<form> <label> Enter your full name   <br><br></label><input type:"text" >
+</form><br><br></label> 
+<form> <label> Enter your email  <br><br></label><input type:"text" >
+</form><br><</label><input type:"text" >
+<form></form>  <label> Enter your password   <br><br></label><input type:"text" >
+ </form>
+<form></form><label> confirmyour password  <br><br></label><input type:"text" >
+</form>
+<label>><br>Enter your gender:</br></label>
+            <input type="radio" name="gender" value="male"> Male
+            <input type="radio" name="gender" value="female"> Female
+            <input type="radio" name="gender" value="others"> Others<br><br>
+             <label>Select one International Language you know:</label><br>
+            <select name="language">
+                <option value="english">English</option>
+                <option value="french">French</option>
+                <option value="german">German</option>
+                <option value="spanish">Spanish</option>
+            </select>
+ <label><br>Enter your Date of Birth:</label><br>
+            <input type="date" name="dob"><br><br>
+             <label>Enter your Address:</label><br>
+            <textarea name="address" rows="4" cols="30"></textarea><br><br>
+
+            <label>Please upload your photograph:</label><br>
+            <input type="file" name="photo"><br><br>
+ <label>Duration of Undergraduate Degree:</label><br>
+            <input type="range" name="duration" min="1" max="5">
+            <span>Years</span><br><br>
+              <input type="submit" value="Submit">
+        </fieldset>
+    </form>
+
+</body>
+</html>
+
+
+
+</fieldset>
+
+</form>
