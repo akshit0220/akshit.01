@@ -49,10 +49,7 @@ DELETE FROM students WHERE id = 10;
 DELETE FROM students WHERE marks < 70;
 DELETE FROM students WHERE city = 'Kolkata';
 
-9. LIMIT
-SELECT * FROM students LIMIT 3;
-SELECT * FROM students ORDER BY marks DESC LIMIT 2;
-SELECT * FROM students WHERE city='Mumbai' LIMIT 1;
+
 
 10. MIN and MAX
 SELECT MIN(age) AS youngest FROM students;
