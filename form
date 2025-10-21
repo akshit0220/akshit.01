@@ -42,3 +42,146 @@
 </fieldset>
 
 </form>
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Form with Buttons</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 30px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 700px;
+            box-shadow: 0 3px 7px rgba(0,0,0,0.2);
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        select,
+        textarea,
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        textarea {
+            resize: vertical;
+        }
+        .radio-group, .checkbox-group {
+            margin-top: 5px;
+        }
+        .radio-group label, .checkbox-group label {
+            margin-right: 20px;
+            font-weight: normal;
+        }
+        .buttons {
+            margin-top: 25px;
+        }
+        button {
+            padding: 12px 20px;
+            margin-right: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            font-size: 16px;
+        }
+        button.submit-btn {
+            background-color: #28a745;
+        }
+        button.submit-btn:hover {
+            background-color: #218838;
+        }
+        button.view-btn {
+            background-color: #0077cc;
+        }
+        button.view-btn:hover {
+            background-color: #005fa3;
+        }
+        button.reset-btn {
+            background-color: #dc3545;
+        }
+        button.reset-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Submit Your Review</h1>
+
+    <form action="#" method="post" enctype="multipart/form-data">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+        <label for="product">Product/Service Name:</label>
+        <input type="text" id="product" name="product" placeholder="Enter product or service name" required>
+
+        <label for="title">Review Title:</label>
+        <input type="text" id="title" name="title" placeholder="Enter a short title" required>
+
+        <label for="rating">Rating:</label>
+        <select id="rating" name="rating" required>
+            <option value="">Select Rating</option>
+            <option value="5">5 - Excellent</option>
+            <option value="4">4 - Very Good</option>
+            <option value="3">3 - Good</option>
+            <option value="2">2 - Fair</option>
+            <option value="1">1 - Poor</option>
+        </select>
+
+        <label for="review">Review Text:</label>
+        <textarea id="review" name="review" rows="5" placeholder="Write your review here..." required></textarea>
+
+        <label for="date">Date of Review:</label>
+        <input type="date" id="date" name="date" required>
+
+        <label>Would you recommend this product/service?</label>
+        <div class="radio-group">
+            <label><input type="radio" name="recommend" value="yes" required> Yes</label>
+            <label><input type="radio" name="recommend" value="no"> No</label>
+        </div>
+
+        <label class="checkbox-group">
+            <input type="checkbox" name="subscribe" value="yes"> Subscribe to our newsletter
+        </label>
+
+        <label for="image">Upload Image:</label>
+        <input type="file" id="image" name="image" accept="image/*">
+
+        <div class="buttons">
+            <button type="submit" class="submit-btn">Submit Review</button>
+            <button type="button" class="view-btn" onclick="window.location.href='reviews.html'">View Reviews</button>
+            <button type="reset" class="reset-btn">Reset</button>
+        </div>
+    </form>
+
+</body>
+</html>
+
