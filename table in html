@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Table Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f5f9;
+            text-align: center;
+            padding: 40px;
+        }
+        h1 {
+            color: #333;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        td {
+            border: 1px solid #ccc;
+            padding: 10px 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Multiplication Time Table Generator</h1>
+    <input type="number" id="num" placeholder="Enter a number">
+    <button onclick="printTable()">Generate Table</button>
+
+    <table id="tableOutput"></table>
+
+    <script>
+        function printTable() {
+            const num = document.getElementById("num").value;
+            const table = document.getElementById("tableOutput");
+            table.innerHTML = ""; // Clear previous table
+
+            if (num === "") {
+                alert("Please enter a number!");
+                return;
+            }
+
+            for (let i = 1; i <= 10; i++) {
+                let row = `<tr><td>${num} x ${i}</td><td>=</td><td>${num * i}</td></tr>`;
+                table.innerHTML += row;
+            }
+        }
+    </script>
+
+</body>
+</html>
