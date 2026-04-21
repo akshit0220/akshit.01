@@ -1,0 +1,220 @@
+import java.sql.*;
+import java.util.Scanner;
+
+public class NetflixProject {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        String url = "jdbc:mysql://localhost:3306/netflixDB";
+        String user = "root";
+        String password = "root"; // change if needed
+
+        Connection con;
+        try {
+            con = DriverManager.getConnection(url, user, password);
+            System.out.println("Connected to Database");
+
+            char ch = 'Y';
+
+            while (ch == 'Y') {
+                System.out.println("1. Show all records");
+                System.out.println("2. Search record");
+                System.out.println("3. Add record");
+                System.out.println("4. Delete record");
+                System.out.println("5. Modify record");
+
+                System.out.print("Enter choice: ");
+                int choice = sc.nextInt();
+
+                switch (choice) {
+
+                    case 1:
+                        Statement st = con.createStatement();
+                        ResultSet rs = st.executeQuery("SELECT * FROM series");
+
+                        while (rs.next()) {
+                            System.out.println(
+                                    rs.getInt("NID") + " " +
+                                    rs.getString("Series_n") + " " +
+                                    rs.getInt("Rating"));
+                        }
+                        break;
+
+                    case 2:
+                        System.out.print("Enter ID: ");
+                        int id = sc.nextInt();
+
+                        PreparedStatement ps = con.prepareStatement(
+                                "SELECT * FROM series WHERE NID=?");
+                        ps.setInt(1, id);
+                        ResultSet rs2 = ps.executeQuery();
+
+                        if (!rs2.next()) {
+                            System.out.println("Record not found");
+                        } else {
+                            System.out.println(rs2.getString("Series_n"));
+                        }
+                        break;
+
+                    case 3:
+                        System.out.print("Enter ID: ");
+                        int nid = sc.nextInt();
+                        sc.nextLine();
+
+                        System.out.print("Enter series name: ");
+                        String name = sc.nextLine();
+
+                        System.out.print("Enter rating: ");
+                        int rating = sc.nextInt();
+
+                        PreparedStatement ps2 = con.prepareStatement(
+                                "INSERT INTO series (NID, Series_n, Rating) VALUES (?, ?, ?)");
+
+                        ps2.setInt(1, nid);
+                        ps2.setString(2, name);
+                        ps2.setInt(3, rating);
+
+                        ps2.executeUpdate();
+                        System.out.println("Record Added");
+                        break;
+
+                    case 4:
+                        System.out.print("Enter ID to delete: ");
+                        int del = sc.nextInt();
+
+                        PreparedStatement ps3 = con.prepareStatement(
+                                "DELETE FROM series WHERE NID=?");
+                        ps3.setInt(1, del);
+
+                        int rows = ps3.executeUpdate();
+
+                        if (rows > 0)
+                            System.out.println("Deleted");
+                        else
+                            System.out.println("Not Found");
+                        break;
+
+                    case 5:
+                        System.out.print("Enter ID to update: ");
+                        int up = sc.nextInt();
+                        sc.nextLine();
+
+                        System.out.print("Enter new name: ");
+                        String newName = sc.nextLine();
+
+                        PreparedStatement ps4 = con.prepareStatement(
+                                "UPDATE series SET Series_n=? WHERE NID=?");
+
+                        ps4.setString(1, newName);
+                        ps4.setInt(2, up);
+
+                        ps4.executeUpdate();
+                        System.out.println("Updated");
+                        break;
+
+                    default:
+                        System.out.println("Invalid choice");
+                }
+
+                System.out.print("Continue? (Y/N): ");
+                ch = sc.next().toUpperCase().charAt(0);
+            }
+
+            con.close();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+}
+
+
+-- Create Database
+CREATE DATABASE netflixDB;
+
+-- Use Database
+USE netflixDB;
+
+-- Create Table
+CREATE TABLE series (
+    NID INT PRIMARY KEY,
+    Series_n VARCHAR(150),
+    DOR VARCHAR(30),
+    NOE INT,
+    season INT,
+    Director_n VARCHAR(150),
+    Actor VARCHAR(150),
+    Actress VARCHAR(150),
+    category VARCHAR(50),
+    Rating INT
+);
+
+-- Insert Records One by One
+
+INSERT INTO series VALUES
+(1, 'Lockeandkey', '01-01-2019', 28, 3, 'Ram kapoor', 'Tushar Malhotra', 'Deepika Padukone', 'horror', 90);
+
+INSERT INTO series VALUES
+(2, 'Squid Games', '11-05-2020', 8, 1, 'Maneet kaur', 'Harpreet Singh', 'Charanpreet kaur', 'Drama', 60);
+
+INSERT INTO series VALUES
+(3, 'Delhi crimes', '25-11-2022', 5, 1, 'Radha Kumari', 'Varun Dhawan', 'Kirti Sanon', 'action', 50);
+
+INSERT INTO series VALUES
+(4, 'Inception', '25-10-2020', 2, 2, 'Christopher Nolan', 'Leonardo DiCaprio', 'Ellen Page', 'action', 70);
+
+INSERT INTO series VALUES
+(5, 'Titanic', '19-07-2018', 4, 3, 'James Cameron', 'Leonardo DiCaprio', 'Kate Winslet', 'Suspense', 85);
+
+INSERT INTO series VALUES
+(6, 'The Godfather', '30-06-2012', 2, 2, 'Francis Ford Coppola', 'Marlon Brando', 'Diane Keaton', 'action', 55);
+
+INSERT INTO series VALUES
+(7, 'The Dark Knight', '10-06-2013', 3, 3, 'Christopher Nolan', 'Christian Bale', 'Maggie Gyllenhaal', 'Drama', 95);
+
+INSERT INTO series VALUES
+(8, 'Forrest Gump', '12-05-2017', 4, 4, 'Robert Zemeckis', 'Tom Hanks', 'Robin Wright', 'Suspense', 78);
+
+INSERT INTO series VALUES
+(9, 'Pulp Fiction', '20-08-2008', 5, 5, 'Quentin Tarantino', 'John Travolta', 'Uma Thurman', 'action', 85);
+
+INSERT INTO series VALUES
+(10, 'Schindlers List', '09-09-2009', 6, 6, 'Steven Spielberg', 'Liam Neeson', 'Embeth Davidtz', 'Suspense', 88);
+
+INSERT INTO series VALUES
+(11, 'The Shawshank Redemption', '25-02-2002', 7, 7, 'Frank Darabont', 'Tim Robbins', 'None', 'Drama', 65);
+
+INSERT INTO series VALUES
+(12, 'The Matrix', '15-11-2022', 8, 8, 'The Wachowskis', 'Keanu Reeves', 'Carrie-Anne Moss', 'action', 78);
+
+INSERT INTO series VALUES
+(13, 'Fight Club', '10-08-2008', 9, 9, 'David Fincher', 'Brad Pitt', 'Helena Bonham Carter', 'Suspense', 98);
+
+INSERT INTO series VALUES
+(14, 'Gladiator', '05-09-2012', 1, 1, 'Ridley Scott', 'Russell Crowe', 'Connie Nielsen', 'Drama', 83);
+
+INSERT INTO series VALUES
+(15, 'The Silence of the Lambs', '23-11-2023', 2, 2, 'Jonathan Demme', 'Anthony Hopkins', 'Jodie Foster', 'action', 81);
+
+INSERT INTO series VALUES
+(16, 'Jurassic Park', '12-07-2011', 3, 3, 'Steven Spielberg', 'Sam Neill', 'Laura Dern', 'Suspense', 92);
+
+INSERT INTO series VALUES
+(17, 'Avatar', '22-11-2023', 4, 4, 'James Cameron', 'Sam Worthington', 'Zoe Saldana', 'Drama', 76);
+
+INSERT INTO series VALUES
+(18, 'The Avengers', '20-11-2014', 5, 5, 'Joss Whedon', 'Robert Downey Jr.', 'Scarlett Johansson', 'action', 74);
+
+INSERT INTO series VALUES
+(19, 'Interstellar', '29-01-2014', 6, 6, 'Christopher Nolan', 'Matthew McConaughey', 'Anne Hathaway', 'Suspense', 75);
+
+INSERT INTO series VALUES
+(20, 'The Lord of the Rings', '30-03-2019', 7, 7, 'Peter Jackson', 'Elijah Wood', 'Liv Tyler', 'action', 90);
+
+
+
+
+
+
+
+
