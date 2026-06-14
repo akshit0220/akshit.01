@@ -1,0 +1,222 @@
+CREATE DATABASE IF NOT EXISTS cyber_security_project;
+
+USE cyber_security_project;
+
+CREATE TABLE IF NOT EXISTS users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) UNIQUE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS password_history (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    password_hash VARCHAR(255) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+
+import mysql.connector
+import hashlib
+import re
+import random
+import string
+
+# Connect to MySQL
+
+con = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="root",
+    database="cyber_security_project"
+)
+
+cur = con.cursor()
+
+
+# Convert password into SHA256 hash
+def make_hash(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+
+
+# Get user id if exists, otherwise create new user
+def get_user(username):
+
+    sql = "SELECT user_id FROM users WHERE username=%s"
+    cur.execute(sql, (username,))
+    data = cur.fetchone()
+
+    if data:
+        return data[0]
+
+    sql = "INSERT INTO users(username) VALUES(%s)"
+    cur.execute(sql, (username,))
+    con.commit()
+
+    return cur.lastrowid
+
+
+# Check whether user used this password before
+def check_old_password(user_id, password):
+
+    hashed_pwd = make_hash(password)
+
+    sql = """
+    SELECT * FROM password_history
+    WHERE user_id=%s
+    AND password_hash=%s
+    """
+
+    cur.execute(sql, (user_id, hashed_pwd))
+
+    return cur.fetchone()
+
+
+# Check password strength
+def check_strength(password):
+
+    score = 0
+
+    if len(password) >= 12:
+        score += 1
+
+    if re.search("[A-Z]", password):
+        score += 1
+
+    if re.search("[a-z]", password):
+        score += 1
+
+    if re.search("[0-9]", password):
+        score += 1
+
+    if re.search("[!@#$%^&*]", password):
+        score += 1
+
+    if score <= 2:
+        return "Weak"
+
+    elif score <= 4:
+        return "Medium"
+
+    return "Strong"
+
+
+# Generate a strong password suggestion
+def suggest_password():
+
+    chars = string.ascii_letters + string.digits + "@#$%&*"
+
+    password = ""
+
+    for i in range(14):
+        password += random.choice(chars)
+
+    return password
+
+
+# Save password in history table
+def save_password(user_id, password):
+
+    hashed_pwd = make_hash(password)
+
+    sql = """
+    INSERT INTO password_history(user_id,password_hash)
+    VALUES(%s,%s)
+    """
+
+    cur.execute(sql, (user_id, hashed_pwd))
+    con.commit()
+
+
+# Main Program
+
+print("\n===== Password Security Checker =====\n")
+
+name = input("Enter Username : ")
+pwd = input("Enter Password : ")
+
+user_id = get_user(name)
+
+# Check password reuse
+if check_old_password(user_id, pwd):
+
+    print("\nPassword already used before.")
+    print("Choose a different password.")
+
+    print("\nSuggested Password:")
+    print(suggest_password())
+
+else:
+
+    result = check_strength(pwd)
+
+    print("\nPassword Strength :", result)
+
+    if result != "Strong":
+
+        print("\nSuggested Strong Password:")
+        print(suggest_password())
+
+    save_password(user_id, pwd)
+
+    print("\nPassword accepted and stored securely.")
+
+
+import mysql.connector
+import sys
+
+def setup():
+    # Attempt connection options
+    credentials = [
+        {"user": "root", "password": "root"},
+        {"user": "root", "password": "root"},
+        {"user": "root", "password": ""},
+    ]
+
+    conn = None
+    connected_creds = None
+    for cred in credentials:
+        try:
+            conn = mysql.connector.connect(
+                host="localhost",
+                user=cred["user"],
+                password=cred["password"]
+            )
+            connected_creds = cred
+            print(f"Successfully connected using user: {cred['user']} and password: '{cred['password']}'")
+            break
+        except Exception as e:
+            print(f"Failed connection attempt with user {cred['user']}: {e}")
+
+    if conn is None:
+        print("Error: Could not connect to MySQL using any tested credentials.")
+        sys.exit(1)
+
+    cursor = conn.cursor()
+
+    # Read and execute index.sql
+    try:
+        with open("index.sql", "r") as f:
+            sql_script = f.read()
+        
+        # Split script by semicolon (basic parsing)
+        commands = sql_script.split(";")
+        for command in commands:
+            cmd = command.strip()
+            if cmd:
+                print(f"Executing: {cmd[:100]}...")
+                cursor.execute(cmd)
+        
+        conn.commit()
+        print("Database schema set up successfully!")
+        
+        # If the password in the code needs to be adjusted, let the caller know
+        print(f"SUCCESS_CREDS: {connected_creds['password']}")
+    except Exception as e:
+        print(f"Error during schema setup: {e}")
+        sys.exit(1)
+    finally:
+        cursor.close()
+        conn.close()
+
+if __name__ == "__main__":
+    setup()
